@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarHub - Online Car Selling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('carhub-background.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6600;
+        }
+        h1 {
+            font-size: 3em;
+            text-decoration: underline;
+        }
+        h2 {
+            font-size: 2em;
+        }
+        .content {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            width: 80%;
+        }
+        .images img {
+            margin: 10px;
+            border-radius: 10px;
+        }
+        .preformatted {
+            background-color: #f8f8f8;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre;
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #ff6600;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to CarHub</h1>
+    <h2>Your Destination for Buying and Selling Cars</h2>
+
+    <div class="content" id="carhub-content">
+        <p><strong>CarHub</strong> is your trusted platform for buying and selling cars online. We offer the latest models, competitive prices, and the best deals. Browse our inventory or list your car for sale today!</p>
+        <p style="font-size: 18px; color: blue;"><em>Find the car of your dreams at <u>CarHub</u>!</em></p>
+
+        <div class="images" id="car-imager"></div>
+
+        <div class="preformatted" id="car-inventory"></div>
+
+        <p>Explore more:</p>
+        <ul>
+            <li><a href="sales you car.html">sales you car</a></li>
+            <li><a href="buy you car.html">buy You Car</a></li>
+            <li><a href="financing.html">Car Financing Options</a></li>
+        </ul>
+<li><a href="register.html">register form </a></li>
+</ul>
+        <h3>Our Popular Models</h3>
+        <ol id="popular-models"></ol>
+
+        <h3>Why Choose CarHub?</h3>
+        <ul>
+            <li>Trusted by thousands of customers</li>
+            <li>Wide selection of new and used cars</li>
+            <li>Easy financing options</li>
+        </ul>
+
+        <h3>Key Definitions</h3>
+        <dl>
+            <dt>SUV</dt>
+            <dd>Sport Utility Vehicle, a versatile car for families and adventurers.</dd>
+            <dt>Sedan</dt>
+            <dd>A standard car model, perfect for city driving and comfort.</dd>
+        </dl>
+
+        <hr>
+        <p><strong>Ready to drive your dream car?</strong></p>
+        <hr>
+    </div>
+
+    <footer>
+        <p>© 2025 CarHub. All Rights Reserved.</p>
+        <p>Contact us: <a href="mailto:support@carhub.com">support@carhub.com</a> | Phone: +255 674 134 136</p>
+    </footer>
+
+    <script>
+        // Dynamic content for the CarHub website
+        const cars = [
+            { name: "Toyota Camry 2023", price: "$25,000", image: "car1.jpg" },
+            { name: "Honda Accord 2022", price: "$22,000", image: "car2.jpg" },
+            { name: "Tesla Model 3 2023", price: "$40,000", image: "car3.jpg" }
+        ];
+
+        const popularModels = [
+            "Toyota Camry",
+            "Honda Accord",
+            "Tesla Model 3"
+        ];
+
+        function displayCars() {
+            const carImagesDiv = document.getElementById('car-images');
+            const carInventoryDiv = document.getElementById('car-inventory');
+
+            cars.forEach(car => {
+                carImagesDiv.innerHTML += `<img src="${car.image}" alt="${car.name}" width="300">`;
+                carInventoryDiv.innerHTML += `${car.name} - ${car.price}\n`;
+            });
+        }
+
+        function displayPopularModels() {
+            const popularModelsList = document.getElementById('popular-models');
+            popularModels.forEach(model => {
+                popularModelsList.innerHTML += `<li>${model}</li>`;
+            });
+        }
+
+        // Initialize the display
+        displayCars();
+        displayPopularModels();
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Listings with Financing Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .car-listing {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .car-image {
+            flex: 1 1 300px;
+            max-width: 300px;
+        }
+        .car-image img {
+            width: 100%;
+            height: auto;
+        }
+        .car-details {
+            flex: 2 1 400px;
+            padding: 20px;
+        }
+        .car-details h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .calculator {
+            margin-top: 20px;
+        }
+        .calculator label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .calculator input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .calculator button {
+            width: 100%;
+            padding: 10px;
+            background-color: #072153;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .calculator button:hover {
+            background-color: #0a2a75;
+        }
+        .calculator .result {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #072153;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Listings with Financing Options</h1>
+
+        <!-- Car Listings -->
+        <div id="car-listings"></div>
+
+        <script>
+            const cars = [
+                {
+                    model: 'Car Model 1',
+                    price: 25000,
+                    image: 'simba.jpeg'
+                },
+                {
+                    model: 'Car Model 2',
+                    price: 30000,
+                    image: 'laizer.jpeg'
+                }
+                // Add more car objects as needed
+            ];
+
+            function createCarListing(car) {
+                return `
+                    <div class="car-listing">
+                        <div class="car-image">
+                            <img src="${car.image}" alt="${car.model}">
+                        </div>
+                        <div class="car-details">
+                            <h2>${car.model}</h2>
+                            <p>Price: $${car.price}</p>
+                            <div class="calculator">
+                                <h3>Financing Calculator</h3>
+                                <label for="loan-amount-${car.model.replace(/\s+/g, '-')}">Loan Amount ($):</label>
+                                <input type="number" id="loan-amount-${car.model.replace(/\s+/g, '-')}" value="${car.price}">
+                                
+                                <label for="interest-rate-${car.model.replace(/\s+/g, '-')}">Interest Rate (%):</label>
+                                <input type="number" id="interest-rate-${car.model.replace(/\s+/g, '-')}" placeholder="Enter interest rate">
+                                
+                                <label for="loan-term-${car.model.replace(/\s+/g, '-')}">Loan Term (years):</label>
+                                <input type="number" id="loan-term-${car.model.replace(/\s+/g, '-')}" placeholder="Enter loan term">
+                                
+                                <button onclick="calculateLoan('${car.model.replace(/\s+/g, '-')}', ${car.price})">Calculate</button>
+                                
+                                <div class="result" id="monthly-payment-${car.model.replace(/\s+/g, '-')}"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function displayCarListings() {
+                const listingsContainer = document.getElementById('car-listings');
+                cars.forEach(car => {
+                    listingsContainer.innerHTML += createCarListing(car);
+                });
+            }
+
+            function calculateLoan(model, price) {
+                const loanAmount = document.getElementById(`loan-amount-${model}`).value;
+                const interestRate = document.getElementById(`interest-rate-${model}`).value;
+                const loanTerm = document.getElementById(`loan-term-${model}`).value;
+
+                if (loanAmount === '' || interestRate === '' || loanTerm === '') {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                const principal = parseFloat(loanAmount);
+                const calculateInterest = parseFloat(interestRate) / 100 / 12;
+                const calculatePayments = parseFloat(loanTerm) * 12;
+
+                const x = Math.pow(1 + calculateInterest, calculatePayments);
+                const monthlyPayment = (principal * x * calculateInterest) / (x - 1);
+
+                if (isFinite(monthlyPayment)) {
+                    document.getElementById(`monthly-payment-${model}`).innerHTML = `Monthly Payment: $${monthlyPayment.toFixed(2)}`;
+                } else {
+                    document.getElementById(`monthly-payment-${model}`).innerHTML = 'Please check your inputs';
+                }
+            }
+
+            // Initialize the car listings
+            displayCarListings();
+        </script>
+    </div>
+</body>
+</html>

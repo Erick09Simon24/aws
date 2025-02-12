@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: #fff;
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>User Registration Form</h2>
+    <form id="registrationForm">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" required>
+        <span class="error" id="nameError"></span>
+
+        <label for="registrationNumber">Registration Number:</label>
+        <input type="text" placeholder="BCS-00-0000-0000" id="registrationNumber" required>
+        <span class="error" id="regNumError"></span>
+
+        <label for="sex">Sex:</label>
+        <select id="sex" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <label for="email">Email:</label>
+        <input type="email" placeholder="eg. example@gmail.com" id="email" required>
+        <span class="error" id="emailError"></span>
+
+        <label for="region">Region:</label>
+        <select id="region" required>
+            <option value="">Select Region</option>
+            <option value="Dar es Salaam">Dar es Salaam</option>
+            <option value="Dodoma">Dodoma</option>
+            <option value="Arusha">Arusha</option>
+            <option value="Manyara">Manyara</option>
+            <option value="Tanga">Tanga</option>
+            <option value="Kigoma">Kigoma</option>
+            <option value="Mwanza">Mwanza</option>
+        </select>
+
+        <label for="district">District:</label>
+        <select id="district" required>
+            <option value="">Select District</option>
+        </select>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <span class="error" id="pwdError"></span>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required>
+        <span class="error" id="confirmPwdError"></span>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<script>
+$(document).ready(function() {
+    const districts = {
+        "Dar es Salaam": ["Ilala", "Kinondoni", "Temeke"],
+        "Dodoma": ["Dodoma Urban", "Dodoma Rural"],
+        "Arusha": ["Arusha City", "Longido"],
+        "Manyara": ["Babati", "Hanang"],
+        "Tanga": ["Tanga City", "Pangani"],
+        "Kigoma": ["Kigoma Urban", "Kibondo"],
+        "Mwanza": ["Mwanza City", "Ilemela"]
+    };
+
+    $('#region').change(function() {
+        const selectedRegion = $(this).val();
+        $('#district').empty().append('<option value="">Select District</option>');
+        if (selectedRegion) {
+            districts[selectedRegion].forEach(function(district) {
+                $('#district').append(`<option value="${district}">${district}</option>`);
+            });
+        }
+    });
+
+    $('#registrationForm').on('submit', function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        // Validation
+        const fullName = $('#fullName').val();
+        if (!fullName.match(/^[a-zA-Z\s]+$/)) {
+            $('#nameError').text('Invalid name format.');
+            valid = false;
+        } else {
+            $('#nameError').text('');
+        }
+
+        const regNum = $('#registrationNumber').val();
+        if (!regNum.match(/^BCS-\d{2}-\d{4}-\d{4}$/)) {
+            $('#regNumError').text('Format must be BCS-00-0000-0000.');
+            valid = false;
+        } else {
+            $('#regNumError').text('');
+        }
+
+        const email = $('#email').val();
+        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            $('#emailError').text('Invalid email format.');
+            valid = false;
+        } else {
+            $('#emailError').text('');
+        }
+
+        const password = $('#password').val();
+        const confirmPassword = $('#confirmPassword').val();
+        if (password.length < 8) {
+            $('#pwdError').text('Password must be at least 8 characters.');
+            valid = false;
+        } else {
+            $('#pwdError').text('');
+        }
+
+        if (password !== confirmPassword) {
+            $('#confirmPwdError').text('Passwords do not match.');
+            valid = false;
+        } else {
+            $('#confirmPwdError').text('');
+        }
+
+        if (valid) {
+            alert('Registration successful!');
+        }
+    });
+});
+</script>
+
+</body>
+</html>
